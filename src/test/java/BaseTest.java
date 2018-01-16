@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.*;
 
 public class BaseTest {
     protected static ApiClient apiClient = ApiClient.getInstance();
+    protected static Config config = Config.getInstance();
 
     @Step("Проверка http status code")
     static void chechHttpCode(HttpResponse response) {

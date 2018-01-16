@@ -17,9 +17,9 @@ public class DeleteFileTest extends BaseTest{
     @Before
     public void uploadFile(){
         try {
-            apiClient.uploadResources(fileName, Config.THIRDPARTY_RESOURCE);
+            apiClient.uploadResources(fileName, config.THIRDPARTY_RESOURCE);
             long wait = 0;
-            while (Config.TIMEOUT > wait) {
+            while (config.TIMEOUT > wait) {
                 try {
                     apiClient.getResources(fileName).getBody().getObject().getString("error");
                 } catch (JSONException e) {

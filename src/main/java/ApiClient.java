@@ -21,6 +21,8 @@ import java.util.Map;
  */
 public class ApiClient {
 
+    private static Config config = Config.getInstance();
+
     private static volatile ApiClient instance;
 
     public static ApiClient getInstance() {
@@ -40,7 +42,7 @@ public class ApiClient {
     private static final Map<String, String> headers;
     static {
         Map<String, String> aMap = new HashMap<>();
-        aMap.put("authorization", Config.AUTH_TOKEN);
+        aMap.put("authorization", config.AUTH_TOKEN);
         aMap.put("cache-control", "no-cache");
         headers = Collections.unmodifiableMap(aMap);
     }
@@ -51,7 +53,7 @@ public class ApiClient {
         ResourcesGetRequest request = new ResourcesGetRequest(path);
         mapper.registerModule(new Jdk8Module());
         Map<String, Object> params = mapper.convertValue(request, Map.class);
-        return Unirest.get(Config.API_URL)
+        return Unirest.get(config.API_URL)
                 .headers(headers)
                 .queryString(params)
                 .asJson();
@@ -61,14 +63,14 @@ public class ApiClient {
         ResourcesDeleteRequest request = new ResourcesDeleteRequest(path);
         mapper.registerModule(new Jdk8Module());
         Map<String, Object> params = mapper.convertValue(request, Map.class);
-        return Unirest.delete(Config.API_URL)
+        return Unirest.delete(config.API_URL)
                 .headers(headers)
                 .queryString(params)
                 .asJson();
     }
 
     HttpResponse<JsonNode> operationStatus(String operationID) throws UnirestException {
-        return Unirest.get(Config.API_OPERATIONS_URL + "/" + operationID)
+        return Unirest.get(config.API_OPERATIONS_URL + "/" + operationID)
                 .headers(headers)
                 .asJson();
     }
@@ -77,7 +79,7 @@ public class ApiClient {
         UploadPostRequest request = new UploadPostRequest(path, url);
         mapper.registerModule(new Jdk8Module());
         Map<String, Object> params = mapper.convertValue(request, Map.class);
-        return Unirest.post(Config.API_URL + "/upload")
+        return Unirest.post(config.API_URL + "/upload")
                 .headers(headers)
                 .queryString(params)
                 .asJson();
@@ -89,7 +91,7 @@ public class ApiClient {
         ResourcesPatchRequest request = new ResourcesPatchRequest(path);
         mapper.registerModule(new Jdk8Module());
         Map<String, Object> params = mapper.convertValue(request, Map.class);
-        return Unirest.patch(Config.API_URL)
+        return Unirest.patch(config.API_URL)
                 .headers(headers)
                 .queryString(params)
                 .body(new JSONObject(body))
