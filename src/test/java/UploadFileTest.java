@@ -50,6 +50,7 @@ public class UploadFileTest extends BaseTest{
         String id = "";
         try {
             HttpResponse<JsonNode> response = apiClient.uploadResources(fileName, config.THIRDPARTY_RESOURCE);
+            chechHttpCode(response);
             saveTextLog(response.getBody().toString());
             String href = response.getBody().getObject().getString("href");
             id = href.substring(href.lastIndexOf("/")+1);
@@ -63,6 +64,7 @@ public class UploadFileTest extends BaseTest{
     public void isFilePresentOnDisk(String fileName) {
         try {
             HttpResponse<JsonNode> response = apiClient.getResources(fileName);
+            chechHttpCode(response);
             JsonNode body = response.getBody();
             saveTextLog(body.toString());
             body.getObject().get("error");
